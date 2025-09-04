@@ -78,6 +78,7 @@ export default function Niveis() {
     <Loading isLoading={loading}>
       <Table 
         data={niveis?.map(nivel => ({...nivel, 
+          nivel: <a onClick={() => setEditing(nivel)}>{nivel.nivel}</a>,
           actions: <Flex justify="center" gap={5}>
             <Tooltip label="Editar" withArrow>
               <ActionIcon color="blue" variant="filled" size={24} onClick={() => setEditing(nivel)}>&#9998;</ActionIcon>
