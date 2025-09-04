@@ -1,19 +1,19 @@
-# Desafio Fullstack
+# Desafio Fullstack 💡
 
 Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco de dados relacional e Docker para orquestração.
 
-## Sumário
+## Sumário 📋
 
-- [Tecnologias](#tecnologias)
-- [Como subir o projeto](#como-subir-o-projeto)
-- [Migrations](#migrations)
-- [Para executar o Frontend sem o Docker](#para-executar-o-frontend-sem-o-docker)
-- [Para executar o Backend sem o Docker](#para-executar-o-backend-sem-o-docker)
+- [Tecnologias](#tecnologias-🖥️)
+- [Como subir o projeto](#como-subir-o-projeto-🚀)
+- [Migrations](#migrations-🗄️)
+- [Para executar o Frontend sem o Docker](#para-executar-o-frontend-sem-o-docker-🎨)
+- [Para executar o Backend sem o Docker](#para-executar-o-backend-sem-o-docker-🚀)
 - [Chamadas de API](#chamadas-de-api)
 
 ---
 
-## Tecnologias
+## Tecnologias 🖥️
 
 - **Backend:** Laravel/PSP, PostgreSQL
 - **Frontend:** React
@@ -22,7 +22,7 @@ Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco
 
 ---
 
-## Como subir o projeto
+## Como subir o projeto 🚀
 
 1. Clone o repositório:
   ```bash
@@ -48,13 +48,13 @@ Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco
 
 ---
 
-## Migrations
+## Migrations 🗄️
 
 As migrations são necessárias para criar as tabelas no banco de dados. Execute o comando acima após subir os containers.
 
 ---
 
-## Para executar o Frontend sem o Docker
+## Para executar o Frontend sem o Docker 🎨
 
 - Local: `frontend/`
 - Para desenvolvimento local:
@@ -67,7 +67,7 @@ As migrations são necessárias para criar as tabelas no banco de dados. Execute
 
 ---
 
-## Para executar o Backend sem o Docker
+## Para executar o Backend sem o Docker 🚀
 
 - Local: `backend/`
 - Para desenvolvimento local:
@@ -80,9 +80,9 @@ As migrations são necessárias para criar as tabelas no banco de dados. Execute
 
 ---
 
-## Chamadas de API
+## Chamadas de API 
 
-### Níveis
+### Níveis 🏅
 
 #### Lista de níveis
 
@@ -148,7 +148,7 @@ As migrations são necessárias para criar as tabelas no banco de dados. Execute
     ```
   - **Response:** 204 - Confirmação da exclusão do nível
 
-### Desenvolvedores
+### Desenvolvedores 👨‍💻
 
 #### Lista de desenvolvedores
 
@@ -222,6 +222,6 @@ As migrations são necessárias para criar as tabelas no banco de dados. Execute
     ```
   - **Response:** 204 - Confirmação da exclusão do desenvolvedor
 
-## Licença
+## Licença ⚖️
 
 MIT
