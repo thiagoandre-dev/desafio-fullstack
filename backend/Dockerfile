@@ -25,4 +25,5 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 EXPOSE 9000
 
+# CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
 CMD ["php-fpm"]
