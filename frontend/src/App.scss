@@ -1,0 +1,14 @@
+table.my-table {
+  a {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration: underline;
+      color: blue;
+    }
+  }
+}
+
+html[data-mantine-color-scheme='dark'] table.my-table a:hover {
+  color: orange;
+}
