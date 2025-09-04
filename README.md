@@ -38,15 +38,14 @@ Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco
   ```
 
 4. Execute as migrations do banco de dados:
+
+  As migrations são necessárias para criar as tabelas no banco de dados. Execute o comando acima após subir os containers.
+
   ```bash
   docker exec desafio_backend php artisan migrate
   ```
 
----
-
-## Migrations 🗄️
-
-As migrations são necessárias para criar as tabelas no banco de dados. Execute o comando acima após subir os containers.
+5. Acesse: [http://localhost:8080/](http://localhost:8080/)
 
 ---
 
