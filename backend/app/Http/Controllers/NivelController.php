@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NivelIndexRequest;
 use App\Http\Requests\NivelStoreRequest;
+use App\Http\Requests\NivelUpdateRequest;
 use App\Models\Nivel;
-use \App\Traits\Pagination;
+use App\Traits\Pagination;
 
 class NivelController extends Controller
 {
@@ -86,13 +87,15 @@ class NivelController extends Controller
      *   @OA\Response( response=404, description="Nível não encontrado" )
      * )
      */
-    public function update(NivelStoreRequest $req, int $id)
+    public function update(NivelUpdateRequest $req, int $id)
     {
         $nivel = Nivel::find($id);
 
-        if (!$nivel) {
-            return response()->json(['message' => 'Nível não encontrado'], 404);
-        }
+        if (!$nivel) return response()->json(['message' => 'Nível não encontrado'], 404);
+
+        $jaExiste = Nivel::where('nivel', $req->nivel)->where('id', '!=', $id)->exists();
+
+        if ($jaExiste) return response()->json(['message' => 'O nível informado já existe'], 400);
 
         $data = $req->only(['nivel']);
 
@@ -118,7 +121,7 @@ class NivelController extends Controller
             return response()->json(['message' => 'Nível não encontrado'], 404);
         }
 
-        if(  $nivel->desenvolvedores()->count() > 0 ) {
+        if ($nivel->desenvolvedores()->count() > 0) {
             return response()->json(['message' => 'Não é possível deletar um nível que possui desenvolvedores associados'], 400);
         }
 

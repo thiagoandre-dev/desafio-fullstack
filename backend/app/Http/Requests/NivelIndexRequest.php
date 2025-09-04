@@ -23,4 +23,12 @@ class NivelIndexRequest extends PaginationRequest
             'nivel' => 'nullable|string|max:255',
         ]);
     }
+
+    public function messages(): array
+    {
+        return array_merge(parent::messages(), [
+            'nivel.string' => 'O campo nível deve ser uma string.',
+            'nivel.max' => 'O campo nível não pode ter mais de 255 caracteres.',
+        ]);
+    }
 }

@@ -27,4 +27,18 @@ class DesenvolvedorIndexRequest extends PaginationRequest
             'data_nascimento' => 'nullable|date',
         ]);
     }
+
+    public function messages(): array
+    {
+        return array_merge(parent::messages(), [
+            'nome.string' => 'O campo nome deve ser uma string.',
+            'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
+            'nivel_id.integer' => 'O campo nível deve ser um número inteiro.',
+            'nivel_id.exists' => 'O nível selecionado é inválido.',
+            'sexo.in' => 'O campo sexo deve ser "M" ou "F".',
+            'hobby.string' => 'O campo hobby deve ser uma string.',
+            'hobby.max' => 'O campo hobby não pode ter mais de 255 caracteres.',
+            'data_nascimento.date' => 'O campo data de nascimento deve ser uma data válida.',
+        ]);
+    }
 }
