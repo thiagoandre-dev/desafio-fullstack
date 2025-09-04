@@ -4,11 +4,11 @@ Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco
 
 ## Sumário 📋
 
-- [Tecnologias](#tecnologias-🖥️)
-- [Como subir o projeto](#como-subir-o-projeto-🚀)
-- [Migrations](#migrations-🗄️)
-- [Para executar o Frontend sem o Docker](#para-executar-o-frontend-sem-o-docker-🎨)
-- [Para executar o Backend sem o Docker](#para-executar-o-backend-sem-o-docker-🚀)
+- [Tecnologias](#tecnologias)
+- [Como subir o projeto](#como-subir-o-projeto)
+- [Migrations](#migrations)
+- [Para executar o Frontend sem o Docker](#para-executar-o-frontend-sem-o-docker)
+- [Para executar o Backend sem o Docker](#para-executar-o-backend-sem-o-docker)
 - [Chamadas de API](#chamadas-de-api)
 
 ---
