@@ -11,6 +11,13 @@ Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco
 
 ---
 
+## Recursos de UI 🌗
+
+- O projeto é responsivo, adaptando-se a diferentes tamanhos de tela.
+- Suporte a modo claro (light) e escuro (dark) para melhor experiência do usuário.
+
+---
+
 ## Como subir o projeto 🚀
 
 1. Clone o repositório:
