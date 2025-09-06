@@ -7,7 +7,7 @@ import { Notifications } from '@mantine/notifications'
 
 export default function App() {
   return (
-    <MantineProvider defaultColorScheme="auto">
+    <MantineProvider defaultColorScheme="dark">
       <Notifications position="top-right" /> 
       <Layout/>
     </MantineProvider>
