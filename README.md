@@ -2,6 +2,8 @@
 
 Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco de dados relacional e Docker para orquestração.
 
+[🔗 Confira o projeto funcionando aqui](https://desafiofullstack.seadra.com.br/)
+
 ## Tecnologias 🖥️
 
 - **Backend:** Laravel/PSP, PostgreSQL
