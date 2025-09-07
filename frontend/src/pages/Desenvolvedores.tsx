@@ -13,6 +13,7 @@ export type DesenvolvedorType = {
   id: number
   nivel_id: number
   nome: string
+  nivel?: NivelType
   sexo: 'M' | 'F'
   data_nascimento: string
   hobby: string
@@ -84,6 +85,7 @@ export default function Desenvolvedores() {
       <Table
         data={desenvolvedores?.map(desenvolvedor => ({...desenvolvedor,
           nome: <a onClick={() => setEditing(desenvolvedor)}>{desenvolvedor.nome}</a>,
+          nivel: desenvolvedor.nivel?.nivel,
           data_nascimento: new Date(desenvolvedor.data_nascimento).toLocaleDateString('pt-BR'),
           sexo: desenvolvedor.sexo === 'M' ? 'Masculino' : 'Feminino',
           actions: <Flex justify="center" gap={5}>
@@ -98,6 +100,7 @@ export default function Desenvolvedores() {
         colunas={[
           { key: 'id', label: 'ID', width: 50 },
           { key: 'nome', label: 'Nome' },
+          { key: 'nivel', label: 'Nível' },
           { key: 'sexo', label: 'Sexo', width: 80 },
           { key: 'data_nascimento', label: 'Data de Nascimento', width: 150, align: 'center' },
           { key: 'hobby', label: 'Hobby' },
