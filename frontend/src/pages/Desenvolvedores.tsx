@@ -69,6 +69,8 @@ export default function Desenvolvedores() {
 
   useEffect(() => { Refresh() }, [page])
 
+  useEffect(() => { if( search === '' ) Refresh() }, [search])
+
   return (<>
     <Flex justify="space-between" align="center" mb={20} gap={10}>
       <Typography><h2>Desenvolvedores</h2></Typography>

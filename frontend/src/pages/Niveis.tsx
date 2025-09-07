@@ -62,6 +62,8 @@ export default function Niveis() {
 
   useEffect(() => { Refresh() }, [page])
 
+  useEffect(() => { if( search === '' ) Refresh() }, [search])
+
   return (<>
     <Flex justify="space-between" align="center" mb={20} gap={10}>
       <Typography><h2>Níveis</h2></Typography>
