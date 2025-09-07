@@ -28,10 +28,9 @@ Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco
   cd desafio-fullstack
   ```
 
-2. Copie os arquivos de exemplo de ambiente:
+2. Copie o arquivo de exemplo de ambiente:
   ```bash
   cp backend/.env.example backend/.env
-  cp frontend/.env.example frontend/.env
   ```
 
 3. Suba os containers:
