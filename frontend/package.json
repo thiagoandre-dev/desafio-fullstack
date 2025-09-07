@@ -1,5 +1,9 @@
 {
-  "name": "frontend",
+  "name": "desafio-fullstack-frontend",
+  "author": {
+    "name": "Thiago André Pereira Leite",
+    "email": "thiago.andre.ti@gmail.com"
+  },
   "private": true,
   "version": "0.0.0",
   "type": "module",
