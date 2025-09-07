@@ -1,6 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
     "name": "thiagoandre-dev/desafio-fullstack",
+    "authors": [
+        {
+            "name": "Thiago André Pereira Leite",
+            "email": "thiago.andre.ti@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": [
