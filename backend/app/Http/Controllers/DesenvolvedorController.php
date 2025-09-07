@@ -14,6 +14,7 @@ class DesenvolvedorController extends Controller
     /**
      * @OA\Get(
      *   path="/api/desenvolvedores", summary="Listar desenvolvedores", tags={"Desenvolvedores"},
+     *
      *   @OA\Parameter( name="nivel_id", in="query", description="Filtro pelo ID do nível", required=false, @OA\Schema(type="integer") ),
      *   @OA\Parameter( name="nome", in="query", description="Filtro pelo nome do desenvolvedor", required=false, @OA\Schema(type="string") ),
      *   @OA\Parameter( name="sexo", in="query", description="Filtro pelo sexo do desenvolvedor (M ou F)", required=false, @OA\Schema(type="string", enum={"M", "F"}) ),
@@ -21,12 +22,13 @@ class DesenvolvedorController extends Controller
      *   @OA\Parameter( name="data_nascimento", in="query", description="Filtro pela data de nascimento do desenvolvedor (YYYY-MM-DD)", required=false, @OA\Schema(type="string", format="date") ),
      *   @OA\Parameter( name="page", in="query", description="Número da página para paginação", required=false, @OA\Schema(type="integer", default=1) ),
      *   @OA\Parameter( name="limit", in="query", description="Número de itens por página para paginação", required=false, @OA\Schema(type="integer", default=10) ),
+     *
      *   @OA\Response( response=200, description="Lista de desenvolvedores retornada com sucesso" )
      * )
      */
     public function index(DesenvolvedorIndexRequest $req)
     {
-        $query = Desenvolvedor::with([ 'nivel' => fn ($q) => $q->select('id', 'nivel') ]);
+        $query = Desenvolvedor::with(['nivel' => fn ($q) => $q->select('id', 'nivel')]);
 
         $filters = $req->only(['nivel_id', 'nome', 'sexo', 'hobby', 'data_nascimento']);
 
@@ -50,16 +52,18 @@ class DesenvolvedorController extends Controller
     /**
      * @OA\Get(
      *   path="/api/desenvolvedores/{id}", summary="Obter detalhes de um desenvolvedor", tags={"Desenvolvedores"},
+     *
      *   @OA\Parameter( name="id", in="path", description="ID do desenvolvedor", required=true, @OA\Schema(type="integer") ),
+     *
      *   @OA\Response( response=200, description="Detalhes do desenvolvedor retornados com sucesso" ),
      *   @OA\Response( response=404, description="Desenvolvedor não encontrado" )
      * )
      */
     public function show(int $id)
     {
-        $nivel = Desenvolvedor::with([ 'nivel' => fn ($q) => $q->select('id', 'nivel') ])->find($id);
+        $nivel = Desenvolvedor::with(['nivel' => fn ($q) => $q->select('id', 'nivel')])->find($id);
 
-        if (!$nivel) {
+        if (! $nivel) {
             return response()->json(['message' => 'Desenvolvedor não encontrado'], 404);
         }
 
@@ -69,8 +73,11 @@ class DesenvolvedorController extends Controller
     /**
      * @OA\Post(
      *   path="/api/desenvolvedores", summary="Criar um novo desenvolvedor", tags={"Desenvolvedores"},
+     *
      *   @OA\RequestBody( required=true,
+     *
      *     @OA\JsonContent( required={"nivel_id","nome","sexo","data_nascimento"},
+     *
      *       @OA\Property(property="nivel_id", type="integer", example=1),
      *       @OA\Property(property="nome", type="string", maxLength=255, example="João Silva"),
      *       @OA\Property(property="sexo", type="string", enum={"M","F"}, example="M"),
@@ -78,6 +85,7 @@ class DesenvolvedorController extends Controller
      *       @OA\Property(property="data_nascimento", type="string", format="date", example="1990-05-15")
      *     )
      *   ),
+     *
      *   @OA\Response( response=201, description="Desenvolvedor criado com sucesso" ),
      *   @OA\Response( response=422, description="Erro de validação" )
      * )
@@ -94,9 +102,13 @@ class DesenvolvedorController extends Controller
     /**
      * @OA\Put(
      *   path="/api/desenvolvedores/{id}", summary="Atualizar um desenvolvedor existente", tags={"Desenvolvedores"},
+     *
      *   @OA\Parameter( name="id", in="path", description="ID do desenvolvedor", required=true, @OA\Schema(type="integer") ),
+     *
      *   @OA\RequestBody( required=true,
+     *
      *     @OA\JsonContent( required={"nivel_id","nome","sexo","data_nascimento"},
+     *
      *       @OA\Property(property="nivel_id", type="integer", example=2),
      *       @OA\Property(property="nome", type="string", maxLength=255, example="Maria Souza"),
      *       @OA\Property(property="sexo", type="string", enum={"M","F"}, example="F"),
@@ -104,6 +116,7 @@ class DesenvolvedorController extends Controller
      *       @OA\Property(property="data_nascimento", type="string", format="date", example="1985-10-20")
      *     )
      *   ),
+     *
      *   @OA\Response( response=200, description="Desenvolvedor atualizado com sucesso" ),
      *   @OA\Response( response=404, description="Desenvolvedor não encontrado" ),
      *   @OA\Response( response=422, description="Erro de validação" )
@@ -113,7 +126,7 @@ class DesenvolvedorController extends Controller
     {
         $desenvolvedor = Desenvolvedor::find($id);
 
-        if (!$desenvolvedor) {
+        if (! $desenvolvedor) {
             return response()->json(['message' => 'Desenvolvedor não encontrado'], 404);
         }
 
@@ -127,7 +140,9 @@ class DesenvolvedorController extends Controller
     /**
      * @OA\Delete(
      *   path="/api/desenvolvedores/{id}", summary="Deletar um desenvolvedor", tags={"Desenvolvedores"},
+     *
      *   @OA\Parameter( name="id", in="path", description="ID do desenvolvedor", required=true, @OA\Schema(type="integer") ),
+     *
      *   @OA\Response( response=204, description="Desenvolvedor deletado com sucesso" ),
      *   @OA\Response( response=404, description="Desenvolvedor não encontrado" )
      * )
@@ -136,7 +151,7 @@ class DesenvolvedorController extends Controller
     {
         $desenvolvedor = Desenvolvedor::find($id);
 
-        if (!$desenvolvedor) {
+        if (! $desenvolvedor) {
             return response()->json(['message' => 'Desenvolvedor não encontrado'], 404);
         }
 

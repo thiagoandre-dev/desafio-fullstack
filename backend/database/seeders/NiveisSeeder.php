@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Nivel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class NiveisSeeder extends Seeder
@@ -18,7 +17,7 @@ class NiveisSeeder extends Seeder
             'Júnior',
             'Pleno',
             'Sênior',
-            'Especialista'
+            'Especialista',
         ];
 
         foreach ($niveis as $nivel) {

@@ -21,7 +21,7 @@ class DesenvolvedorFactory extends Factory
 
         return [
             'nivel_id' => Nivel::inRandomOrder()->first()->id ?? Nivel::factory(),
-            'nome' => $faker->firstName() . ' ' . $faker->lastName(),
+            'nome' => $faker->firstName().' '.$faker->lastName(),
             'sexo' => $faker->randomElement(['M', 'F']),
             'data_nascimento' => $faker->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
             'hobby' => $faker->randomElement([null, implode(', ',

@@ -11,7 +11,9 @@ class Desenvolvedor extends Model
     use HasFactory;
 
     protected $table = 'desenvolvedores';
-    protected $fillable = ['nivel_id', 'nome', 'sexo', 'data_nascimento', 'hobby', ];
+
+    protected $fillable = ['nivel_id', 'nome', 'sexo', 'data_nascimento', 'hobby'];
+
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function nivel(): BelongsTo

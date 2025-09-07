@@ -15,9 +15,11 @@ class NivelController extends Controller
     /**
      * @OA\Get(
      *   path="/api/niveis", summary="Listar níveis", tags={"Níveis"},
+     *
      *   @OA\Parameter( name="nivel", in="query", description="Filtro pelo nome do nível", required=false, @OA\Schema(type="string") ),
      *   @OA\Parameter( name="page", in="query", description="Número da página para paginação", required=false, @OA\Schema(type="integer", default=1) ),
      *   @OA\Parameter( name="limit", in="query", description="Número de itens por página para paginação", required=false, @OA\Schema(type="integer", default=10) ),
+     *
      *   @OA\Response( response=200, description="Lista de níveis retornada com sucesso" )
      * )
      */
@@ -27,7 +29,7 @@ class NivelController extends Controller
 
         $nivel = $req->query('nivel');
         if ($nivel) {
-            $query->where('nivel', 'like', '%' . $nivel . '%');
+            $query->where('nivel', 'like', '%'.$nivel.'%');
         }
 
         $niveis = $this->paginate($query, $req);
@@ -40,7 +42,9 @@ class NivelController extends Controller
     /**
      * @OA\Get(
      *   path="/api/niveis/{id}", summary="Obter detalhes de um nível", tags={"Níveis"},
+     *
      *   @OA\Parameter( name="id", in="path", description="ID do nível", required=true, @OA\Schema(type="integer") ),
+     *
      *   @OA\Response( response=200, description="Detalhes do nível retornados com sucesso" ),
      *   @OA\Response( response=404, description="Nível não encontrado" )
      * )
@@ -49,7 +53,7 @@ class NivelController extends Controller
     {
         $nivel = Nivel::find($id);
 
-        if (!$nivel) {
+        if (! $nivel) {
             return response()->json(['message' => 'Nível não encontrado'], 404);
         }
 
@@ -59,9 +63,12 @@ class NivelController extends Controller
     /**
      * @OA\Post(
      *   path="/api/niveis", summary="Criar um novo nível", tags={"Níveis"},
+     *
      *   @OA\RequestBody( required=true,
+     *
      *     @OA\JsonContent( required={"nivel"}, @OA\Property(property="nivel", type="string", maxLength=255, example="Júnior") )
      *   ),
+     *
      *   @OA\Response( response=201, description="Nível criado com sucesso"),
      *   @OA\Response( response=400, description="Requisição inválida")
      * )
@@ -78,10 +85,14 @@ class NivelController extends Controller
     /**
      * @OA\Put(
      *   path="/api/niveis/{id}", summary="Atualizar um nível existente", tags={"Níveis"},
+     *
      *   @OA\Parameter( name="id", in="path", description="ID do nível", required=true, @OA\Schema(type="integer") ),
+     *
      *   @OA\RequestBody( required=true,
+     *
      *     @OA\JsonContent( required={"nivel"}, @OA\Property(property="nivel", type="string", maxLength=255, example="Pleno") )
      *   ),
+     *
      *   @OA\Response( response=200, description="Nível atualizado com sucesso" ),
      *   @OA\Response( response=400, description="Requisição inválida" ),
      *   @OA\Response( response=404, description="Nível não encontrado" )
@@ -91,11 +102,15 @@ class NivelController extends Controller
     {
         $nivel = Nivel::find($id);
 
-        if (!$nivel) return response()->json(['message' => 'Nível não encontrado'], 404);
+        if (! $nivel) {
+            return response()->json(['message' => 'Nível não encontrado'], 404);
+        }
 
         $jaExiste = Nivel::where('nivel', $req->nivel)->where('id', '!=', $id)->exists();
 
-        if ($jaExiste) return response()->json(['message' => 'O nível informado já existe'], 400);
+        if ($jaExiste) {
+            return response()->json(['message' => 'O nível informado já existe'], 400);
+        }
 
         $data = $req->only(['nivel']);
 
@@ -107,7 +122,9 @@ class NivelController extends Controller
     /**
      * @OA\Delete(
      *   path="/api/niveis/{id}", summary="Deletar um nível", tags={"Níveis"},
+     *
      *   @OA\Parameter( name="id", in="path", description="ID do nível", required=true, @OA\Schema(type="integer") ),
+     *
      *   @OA\Response( response=204, description="Nível deletado com sucesso" ),
      *   @OA\Response( response=400, description="Não é possível deletar um nível que possui desenvolvedores associados" ),
      *   @OA\Response( response=404, description="Nível não encontrado" )
@@ -117,7 +134,7 @@ class NivelController extends Controller
     {
         $nivel = Nivel::find($id);
 
-        if (!$nivel) {
+        if (! $nivel) {
             return response()->json(['message' => 'Nível não encontrado'], 404);
         }
 

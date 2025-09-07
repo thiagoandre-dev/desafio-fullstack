@@ -25,7 +25,7 @@ class PaginationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'page'  => 'integer|min:1',
+            'page' => 'integer|min:1',
             'limit' => 'integer|min:1|max:100',
         ];
     }
