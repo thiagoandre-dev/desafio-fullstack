@@ -59,7 +59,6 @@ export default function Layout() {
         { MenuItems.map((item, i) => (
           <NavLink
             key={item.label}
-            href={`#${item.label.toLowerCase()}`}
             onClick={() => setActivePageIndex(i)}
             label={item.label}
             leftSection={<item.icon size={16} stroke={1.5} />}
