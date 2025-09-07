@@ -22,7 +22,7 @@ export type DesenvolvedorType = {
 }
 
 export default function Desenvolvedores() {
-    const [desenvolvedores, setDesenvolvedores] = useState<DesenvolvedorType[]>([]),
+  const [desenvolvedores, setDesenvolvedores] = useState<DesenvolvedorType[]>([]),
         [meta, setMeta] = useState<PaginationMeta>({
           current_page: 1,
           last_page: 1,
@@ -79,7 +79,7 @@ export default function Desenvolvedores() {
       </Group>
     </Flex>
 
-    <SearchBar search={search} setSearch={setSearch} Refresh={Refresh} />
+    <SearchBar search={search} setSearch={setSearch} Refresh={Refresh} setPage={setPage} />
 
     <Loading isLoading={loading}>
       <Table

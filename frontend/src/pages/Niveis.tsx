@@ -30,7 +30,6 @@ export default function Niveis() {
   const Refresh = async() => {
     setLoading(true)
     const response = await api.Index<NivelType>('niveis', { page, nivel: search })
-    console.log(response)
     setNiveis( response?.data )
     setMeta( response?.meta )
     setLoading(false)
@@ -73,7 +72,7 @@ export default function Niveis() {
       </Group>
     </Flex>
 
-    <SearchBar search={search} setSearch={setSearch} Refresh={Refresh} />
+    <SearchBar search={search} setSearch={setSearch} Refresh={Refresh} setPage={setPage} />
 
     <Loading isLoading={loading}>
       <Table 
