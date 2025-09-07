@@ -20,7 +20,11 @@ export type ErrorResponse = {
   errors?: Record<string, string[]>
 }
 
-export async function Fetch<T>(url: string, method: http_methods = 'GET', body?: any): Promise<T | PaginatedResponse<T> | void | null> {
+export async function Fetch<T>(path: string, method: http_methods = 'GET', params?: Record<string, any>, body?: any): Promise<T | PaginatedResponse<T> | void | null> {
+  const url = new URL(`/api/${path}`, `${window.location.origin}`)
+
+  if (params) Object.entries(params).forEach(([key, value]) => url.searchParams.append(key, String(value)) )
+
   return await fetch(url, {
     method,
     headers: {
@@ -47,27 +51,23 @@ export async function Fetch<T>(url: string, method: http_methods = 'GET', body?:
 }
 
 export async function Index<T>(path: string, params?: Record<string, any>): Promise<PaginatedResponse<T>> {
-  const url = new URL(`${import.meta.env.VITE_API_BASE_URL}${path}`)
-  if (params)
-    Object.entries(params).forEach(([key, value]) => url.searchParams.append(key, String(value)) )
-
-  return Fetch<T>(url.toString(), 'GET') as Promise<PaginatedResponse<T>>
+  return Fetch<T>(path, 'GET', params) as Promise<PaginatedResponse<T>>
 }
 
 export async function Show<T>(path: string, id: number | string): Promise<T> {
-  return Fetch<T>(`${import.meta.env.VITE_API_BASE_URL}${path}/${id}`, 'GET') as Promise<T>
+  return Fetch<T>(`${path}/${id}`, 'GET') as Promise<T>
 }
 
 export async function Store<T>(path: string, data: Partial<T>): Promise<T> {
-  return Fetch<T>(`${import.meta.env.VITE_API_BASE_URL}${path}`, 'POST', data) as Promise<T>
+  return Fetch<T>(path, 'POST', undefined, data) as Promise<T>
 }
 
 export async function Update<T>(path: string, id: number | string, data: Partial<T>): Promise<T> {
-  return Fetch<T>(`${import.meta.env.VITE_API_BASE_URL}${path}/${id}`, 'PUT', data) as Promise<T>
+  return Fetch<T>(`${path}/${id}`, 'PUT', data) as Promise<T>
 }
 
 export async function Delete(path: string, id: number | string): Promise<void> {
-  return Fetch<void>(`${import.meta.env.VITE_API_BASE_URL}${path}/${id}`, 'DELETE') as Promise<void>
+  return Fetch<void>(`${path}/${id}`, 'DELETE') as Promise<void>
 }
 
 export default {
