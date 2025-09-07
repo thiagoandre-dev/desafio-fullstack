@@ -26,7 +26,7 @@ class DesenvolvedorController extends Controller
      */
     public function index(DesenvolvedorIndexRequest $req)
     {
-        $query = Desenvolvedor::query();
+        $query = Desenvolvedor::with([ 'nivel' => fn ($q) => $q->select('id', 'nivel') ]);
 
         $filters = $req->only(['nivel_id', 'nome', 'sexo', 'hobby', 'data_nascimento']);
 
@@ -57,7 +57,7 @@ class DesenvolvedorController extends Controller
      */
     public function show(int $id)
     {
-        $nivel = Desenvolvedor::find($id);
+        $nivel = Desenvolvedor::with([ 'nivel' => fn ($q) => $q->select('id', 'nivel') ])->find($id);
 
         if (!$nivel) {
             return response()->json(['message' => 'Desenvolvedor não encontrado'], 404);
