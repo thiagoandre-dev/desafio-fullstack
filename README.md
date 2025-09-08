@@ -50,32 +50,6 @@ Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco
 
 ---
 
-## Para executar o Frontend sem o Docker 🎨
-
-- Local: `frontend/`
-- Para desenvolvimento local:
-  ```bash
-  cd frontend
-  npm install
-  npm run dev
-  ```
-- O frontend consome a API do backend.
-
----
-
-## Para executar o Backend sem o Docker 🚀
-
-- Local: `backend/`
-- Para desenvolvimento local:
-  ```bash
-  cd backend
-  composer install
-  php artisan serve
-  ```
-- O backend expõe endpoints RESTful.
-
----
-
 ## Chamadas de API 
 
 ### Níveis 🏅
