@@ -19,6 +19,11 @@ return new class extends Migration
             $table->date('data_nascimento');
             $table->string('hobby', 255)->nullable();
             $table->timestamps();
+
+            $table->index('nivel_id');
+            $table->index('nome');
+            $table->index('sexo');
+            $table->index('data_nascimento');
         });
     }
 

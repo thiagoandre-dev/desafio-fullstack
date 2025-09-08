@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nivel', 100);
             $table->timestamps();
+
+            $table->unique('nivel');
+            $table->index('nivel');
         });
     }
 
