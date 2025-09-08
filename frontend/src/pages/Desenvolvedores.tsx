@@ -104,7 +104,10 @@ export default function Desenvolvedores() {
         data={desenvolvedores?.map(desenvolvedor => ({...desenvolvedor,
           nome: <a onClick={() => setEditing(desenvolvedor)}>{desenvolvedor.nome}</a>,
           nivel: desenvolvedor.nivel?.nivel,
-          data_nascimento: new Date(desenvolvedor.data_nascimento).toLocaleDateString('pt-BR'),
+          data_nascimento: (() => {
+            const [year, month, day] = desenvolvedor.data_nascimento?.split('-')
+            return `${day}/${month}/${year}`
+          })(),
           sexo: desenvolvedor.sexo === 'M' ? 'Masculino' : 'Feminino',
           actions: <Flex justify="center" gap={5}>
             <Tooltip label="Editar" withArrow>
