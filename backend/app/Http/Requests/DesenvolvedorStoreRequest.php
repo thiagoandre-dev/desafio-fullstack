@@ -41,6 +41,7 @@ class DesenvolvedorStoreRequest extends FormRequest
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
             'data_nascimento.date' => 'O campo data de nascimento deve ser uma data válida.',
             'data_nascimento.date_format' => 'O campo data de nascimento deve estar no formato YYYY-MM-DD.',
+            'data_nascimento.before' => 'O campo data de nascimento deve ser uma data no passado.',
         ];
     }
 }
