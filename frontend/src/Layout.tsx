@@ -7,7 +7,7 @@ import logo from '/icon.png'
 import { IconCode } from "@tabler/icons-react";
 
 export default function Layout() {
-  const [opened, { toggle }] = useDisclosure(),
+  const [opened, { toggle, close }] = useDisclosure(),
         [activePageIndex, setActivePageIndex] = useState(0),
         [Page, setPage] = useState(() => MenuItems[0].page),
         { colorScheme } = useMantineColorScheme(),
@@ -59,7 +59,7 @@ export default function Layout() {
         { MenuItems.map((item, i) => (
           <NavLink
             key={item.label}
-            onClick={() => setActivePageIndex(i)}
+            onClick={() => { setActivePageIndex(i); close() }}
             label={item.label}
             leftSection={<item.icon size={16} stroke={1.5} />}
             active={i === activePageIndex}
@@ -68,6 +68,7 @@ export default function Layout() {
         <NavLink
           style={{ borderTop: `1px solid ${dark ? theme.colors.dark[5] : theme.colors.gray[3]}`, marginTop: 10, paddingTop: 10 }}
           href={`${window.location.origin}/api/documentation`}
+          onClick={() => close()}
           label="API Docs"
           target="_blank"
           leftSection={<IconCode />}
