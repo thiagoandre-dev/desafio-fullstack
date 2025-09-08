@@ -8,7 +8,7 @@ export function Pagination({ meta, setPage, limit, setLimit }: {
   setLimit: (limit: number) => void,
 }
 ){
-  return (
+  return ( meta &&
     <Flex justify="space-between" mt={20} align="center">
       <Select data={[
           { value: '5', label: '5 por página' },
