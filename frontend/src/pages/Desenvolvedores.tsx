@@ -33,7 +33,7 @@ export default function Desenvolvedores() {
         [search, setSearch] = useState(''),
         [editing, setEditing] = useState<DesenvolvedorType | undefined>(undefined),
         [loading, setLoading] = useState(false),
-        [order, setOrder] = useState<{ by: string; direction: 'asc' | 'desc'}>({ by: '', direction: 'asc' })
+        [order, setOrder] = useState<{ by: string; direction: 'asc' | 'desc'}>({ by: 'id', direction: 'asc' })
 
   const Refresh = async() => {
     setLoading(true)
@@ -106,7 +106,7 @@ export default function Desenvolvedores() {
           </Flex>
         }) )}
         colunas={[
-          { key: 'id', label: 'ID', width: 50, orderable: true },
+          { key: 'id', label: '#', width: 50, orderable: true },
           { key: 'nome', label: 'Nome', orderable: true },
           { key: 'nivel', label: 'Nível', orderable: true },
           { key: 'sexo', label: 'Sexo', width: 80, orderable: true },

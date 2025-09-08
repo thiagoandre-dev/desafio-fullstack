@@ -26,7 +26,7 @@ export default function Niveis() {
         [search, setSearch] = useState(''),
         [editing, setEditing] = useState<NivelType | undefined>(undefined),
         [loading, setLoading] = useState(false),
-        [order, setOrder] = useState<{ by: string; direction: 'asc' | 'desc'}>({ by: '', direction: 'asc' })
+        [order, setOrder] = useState<{ by: string; direction: 'asc' | 'desc'}>({ by: 'id', direction: 'asc' })
 
   const Refresh = async() => {
     setLoading(true)
@@ -96,7 +96,7 @@ export default function Niveis() {
           </Flex>
         }) )}
         colunas={[
-          { key: 'id', label: 'ID', width: 50, orderable: true },
+          { key: 'id', label: '#', width: 50, orderable: true },
           { key: 'nivel', label: 'Nível', orderable: true },
           { key: 'actions', label: 'Ações', width: 100, align: 'center' },
         ]}
