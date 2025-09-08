@@ -21,7 +21,7 @@ class DesenvolvedorStoreRequest extends FormRequest
             'nivel_id' => 'required|integer|exists:niveis,id',
             'sexo' => 'required|in:M,F',
             'hobby' => 'nullable|string|max:255',
-            'data_nascimento' => 'required|date|date_format:Y-m-d',
+            'data_nascimento' => 'required|date|date_format:Y-m-d|before:today',
         ];
     }
 
