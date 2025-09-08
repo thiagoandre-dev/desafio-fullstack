@@ -122,13 +122,16 @@ function NivelModal({ editing, setEditing, onSave }: {
   setEditing?: (nivel?: NivelType) => void,
   onSave?: () => Promise<void>
 }) {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false),
+        [opened, setOpened] = useState(false)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
+  useEffect(() => setOpened(!!editing), [editing])
+
   useEffect(() => {
-    if( !!editing ) setTimeout(() => inputRef.current?.focus(), 100)
-  }, [editing])
+    if( opened ) setTimeout(() => inputRef.current?.focus(), 100)
+  }, [opened])
 
   return (
     <Modal size="xl"

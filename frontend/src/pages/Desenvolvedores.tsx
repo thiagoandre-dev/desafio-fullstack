@@ -142,7 +142,8 @@ function DesenvolvedorModal({ editing, setEditing, onSave }: {
   onSave?: () => Promise<void>
 }) {
   const [niveis, setNiveis] = useState<NivelType[]>([]),
-        [loading, setLoading] = useState(false)
+        [loading, setLoading] = useState(false),
+        [opened, setOpened] = useState(false)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -152,6 +153,8 @@ function DesenvolvedorModal({ editing, setEditing, onSave }: {
                       editing?.data_nascimento && 
                       new Date(editing.data_nascimento) <= new Date()
 
+  useEffect(() => setOpened(!!editing), [editing])
+
   useEffect(() => {
     const fetchNiveis = async() => {
       const response = await api.Index<NivelType>('niveis', { per_page: 100 })
@@ -160,8 +163,8 @@ function DesenvolvedorModal({ editing, setEditing, onSave }: {
       setTimeout(() => inputRef.current?.focus(), 100)
     }
 
-    if( !!editing ) fetchNiveis()
-  }, [editing])
+    if( opened ) fetchNiveis()
+  }, [opened])
 
   return (
     <Modal size="xl"
