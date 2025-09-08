@@ -19,6 +19,8 @@ class NivelController extends Controller
      *   @OA\Parameter( name="nivel", in="query", description="Filtro pelo nome do nível", required=false, @OA\Schema(type="string") ),
      *   @OA\Parameter( name="page", in="query", description="Número da página para paginação", required=false, @OA\Schema(type="integer", default=1) ),
      *   @OA\Parameter( name="limit", in="query", description="Número de itens por página para paginação", required=false, @OA\Schema(type="integer", default=10) ),
+     *   @OA\Parameter( name="order_by", in="query", description="Campo para ordenar os resultados (id, nivel)", required=false, @OA\Schema(type="string", default="id") ),
+     *   @OA\Parameter( name="order_direction", in="query", description="Direção da ordenação (asc ou desc)", required=false, @OA\Schema(type="string", enum={"asc", "desc"}, default="asc") ),
      *
      *   @OA\Response( response=200, description="Lista de níveis retornada com sucesso" )
      * )

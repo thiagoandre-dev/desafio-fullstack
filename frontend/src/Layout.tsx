@@ -67,7 +67,7 @@ export default function Layout() {
         )) }
         <NavLink
           style={{ borderTop: `1px solid ${dark ? theme.colors.dark[5] : theme.colors.gray[3]}`, marginTop: 10, paddingTop: 10 }}
-          href={`${import.meta.env.VITE_API_BASE_URL}documentation`}
+          href={`${window.location.origin}/api/documentation`}
           label="API Docs"
           target="_blank"
           leftSection={<IconCode />}

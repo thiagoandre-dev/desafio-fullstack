@@ -22,6 +22,8 @@ class DesenvolvedorController extends Controller
      *   @OA\Parameter( name="data_nascimento", in="query", description="Filtro pela data de nascimento do desenvolvedor (YYYY-MM-DD)", required=false, @OA\Schema(type="string", format="date") ),
      *   @OA\Parameter( name="page", in="query", description="Número da página para paginação", required=false, @OA\Schema(type="integer", default=1) ),
      *   @OA\Parameter( name="limit", in="query", description="Número de itens por página para paginação", required=false, @OA\Schema(type="integer", default=10) ),
+     *   @OA\Parameter( name="order_by", in="query", description="Campo para ordenar os resultados (id, nome, nivel, sexo, data_nascimento)", required=false, @OA\Schema(type="string", default="id") ),
+     *   @OA\Parameter( name="order_direction", in="query", description="Direção da ordenação (asc ou desc)", required=false, @OA\Schema(type="string", enum={"asc", "desc"}, default="asc") ),
      *
      *   @OA\Response( response=200, description="Lista de desenvolvedores retornada com sucesso" )
      * )
