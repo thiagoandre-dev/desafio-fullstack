@@ -50,6 +50,26 @@ Projeto fullstack com backend (PHP/Laravel) e frontend (React), utilizando banco
 
 ---
 
+## Testes 🧪
+
+Os testes estão localizados em `backend/tests`. Eles cobrem funcionalidades das APIs e validações do sistema.
+
+Para executar os testes automatizados do backend Laravel:
+
+1. Certifique-se de que os containers estão rodando (`docker-compose up`).
+
+2. Acesse o container do backend:
+  ```bash
+  docker exec -it desafio_backend bash
+  ```
+
+3. Execute os testes com o comando:
+  ```bash
+  php artisan test
+  ```
+
+---
+
 ## Chamadas de API 
 
 ### Níveis 🏅
