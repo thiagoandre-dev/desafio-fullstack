@@ -143,7 +143,7 @@ class NivelController extends Controller
         }
 
         if ($nivel->desenvolvedores()->count() > 0) {
-            return response()->json(['message' => 'Não é possível deletar um nível que possui desenvolvedores associados'], 400);
+            return response()->json(['message' => 'Não é possível excluir um nível que possui desenvolvedores associados'], 400);
         }
 
         $nivel->delete();
