@@ -2,12 +2,13 @@ import { useEffect, useState } from "react"
 import type { PaginationMeta } from "../api"
 import api from "../api"
 import { notifications } from "@mantine/notifications"
-import { ActionIcon, Button, Flex, Group, Pagination, Select, Textarea, TextInput, Tooltip, Typography } from "@mantine/core"
+import { ActionIcon, Button, Flex, Group, Select, Textarea, TextInput, Tooltip, Typography } from "@mantine/core"
 import Table from "../components/Table"
 import Modal from "../components/Modal"
 import type { NivelType } from "./Niveis"
 import Loading from "../components/Loading"
 import SearchBar from "../components/SearchBar"
+import { Pagination } from "../components/Pagination"
 
 export type DesenvolvedorType = {
   id: number
@@ -30,6 +31,7 @@ export default function Desenvolvedores() {
           total: 0,
         }),
         [page, setPage] = useState(1),
+        [limit, setLimit] = useState(10),
         [search, setSearch] = useState(''),
         [editing, setEditing] = useState<DesenvolvedorType | undefined>(undefined),
         [loading, setLoading] = useState(false),
@@ -39,6 +41,7 @@ export default function Desenvolvedores() {
     setLoading(true)
     const response = await api.Index<DesenvolvedorType>('desenvolvedores', {
       page,
+      limit,
       nome: search,
       order_by: order.by,
       order_direction: order.direction,
@@ -73,7 +76,7 @@ export default function Desenvolvedores() {
     Refresh()
   }
 
-  useEffect(() => { Refresh() }, [page, order])
+  useEffect(() => { Refresh() }, [page, order, limit])
 
   useEffect(() => { if( search === '' ) Refresh() }, [search])
 
@@ -116,11 +119,7 @@ export default function Desenvolvedores() {
         ]}
       />
 
-      { meta?.total > 1 &&
-        <Flex justify="center" mt={20}>
-          <Pagination total={meta.last_page} value={meta.current_page} onChange={setPage} />
-        </Flex>
-      }
+      <Pagination meta={meta} setPage={setPage} limit={limit} setLimit={setLimit} />
     </Loading>
 
     <DesenvolvedorModal editing={editing} setEditing={setEditing} onSave={Save} />

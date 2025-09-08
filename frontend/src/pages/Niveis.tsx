@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import api, { type PaginationMeta } from "../api"
 import Table from "../components/Table"
-import { ActionIcon, Button, Flex, Group, Pagination, TextInput, Tooltip, Typography } from "@mantine/core"
+import { ActionIcon, Button, Flex, Group, TextInput, Tooltip, Typography } from "@mantine/core"
 import Modal from "../components/Modal"
 import { notifications } from "@mantine/notifications"
 import Loading from "../components/Loading"
 import SearchBar from "../components/SearchBar"
+import { Pagination } from "../components/Pagination"
 
 export type NivelType = {
   id: number
@@ -23,6 +24,7 @@ export default function Niveis() {
           total: 0,
         }),
         [page, setPage] = useState(1),
+        [limit, setLimit] = useState(10),
         [search, setSearch] = useState(''),
         [editing, setEditing] = useState<NivelType | undefined>(undefined),
         [loading, setLoading] = useState(false),
@@ -32,6 +34,7 @@ export default function Niveis() {
     setLoading(true)
     const response = await api.Index<NivelType>('niveis', {
       page,
+      limit,
       nivel: search,
       order_by: order.by,
       order_direction: order.direction,
@@ -66,7 +69,7 @@ export default function Niveis() {
     Refresh()
   }
 
-  useEffect(() => { Refresh() }, [page, order])
+  useEffect(() => { Refresh() }, [page, order, limit])
 
   useEffect(() => { if( search === '' ) Refresh() }, [search])
 
@@ -102,11 +105,7 @@ export default function Niveis() {
         ]}
       />
 
-      { meta?.total > 1 &&
-        <Flex justify="center" mt={20}>
-          <Pagination total={meta.last_page} value={meta.current_page} onChange={setPage} />
-        </Flex>
-      }
+      <Pagination meta={meta} setPage={setPage} limit={limit} setLimit={setLimit} />
     </Loading>
 
     <NivelModal editing={editing} setEditing={setEditing} onSave={Save} />
