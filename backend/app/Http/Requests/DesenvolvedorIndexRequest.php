@@ -2,21 +2,13 @@
 
 namespace App\Http\Requests;
 
-class DesenvolvedorIndexRequest extends PaginationRequest
+class DesenvolvedorIndexRequest extends PaginationWithOrderRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return array_merge(parent::rules(), [
@@ -25,6 +17,7 @@ class DesenvolvedorIndexRequest extends PaginationRequest
             'sexo' => 'nullable|in:M,F',
             'hobby' => 'nullable|string|max:255',
             'data_nascimento' => 'nullable|date',
+            'order_by' => [...parent::rules()['order_by'], 'in:id,nome,nivel_id,sexo,data_nascimento,nivel'],
         ]);
     }
 
@@ -39,6 +32,7 @@ class DesenvolvedorIndexRequest extends PaginationRequest
             'hobby.string' => 'O campo hobby deve ser uma string.',
             'hobby.max' => 'O campo hobby não pode ter mais de 255 caracteres.',
             'data_nascimento.date' => 'O campo data de nascimento deve ser uma data válida.',
+            'order_by.in' => 'O campo order_by deve ser "nome", "nivel_id", "nivel", "sexo", "data_nascimento" ou "id".',
         ]);
     }
 }

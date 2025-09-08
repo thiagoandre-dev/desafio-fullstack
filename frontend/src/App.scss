@@ -1,5 +1,5 @@
 table.my-table {
-  a {
+  a, th.orderable button.mantine-UnstyledButton-root {
     cursor: pointer;
     transition: all 0.3s ease;
     &:hover {
@@ -9,6 +9,8 @@ table.my-table {
   }
 }
 
-html[data-mantine-color-scheme='dark'] table.my-table a:hover {
-  color: orange;
+html[data-mantine-color-scheme='dark'] table.my-table {
+  a:hover, th.orderable button.mantine-UnstyledButton-root:hover {
+    color: orange;
+  }
 }

@@ -25,11 +25,17 @@ export default function Niveis() {
         [page, setPage] = useState(1),
         [search, setSearch] = useState(''),
         [editing, setEditing] = useState<NivelType | undefined>(undefined),
-        [loading, setLoading] = useState(false)
+        [loading, setLoading] = useState(false),
+        [order, setOrder] = useState<{ by: string; direction: 'asc' | 'desc'}>({ by: '', direction: 'asc' })
 
   const Refresh = async() => {
     setLoading(true)
-    const response = await api.Index<NivelType>('niveis', { page, nivel: search })
+    const response = await api.Index<NivelType>('niveis', {
+      page,
+      nivel: search,
+      order_by: order.by,
+      order_direction: order.direction,
+    })
     setNiveis( response?.data )
     setMeta( response?.meta )
     setLoading(false)
@@ -60,7 +66,7 @@ export default function Niveis() {
     Refresh()
   }
 
-  useEffect(() => { Refresh() }, [page])
+  useEffect(() => { Refresh() }, [page, order])
 
   useEffect(() => { if( search === '' ) Refresh() }, [search])
 
@@ -77,7 +83,7 @@ export default function Niveis() {
     <SearchBar search={search} setSearch={setSearch} Refresh={Refresh} setPage={setPage} />
 
     <Loading isLoading={loading}>
-      <Table 
+      <Table order={order} setOrder={setOrder}
         data={niveis?.map(nivel => ({...nivel, 
           nivel: <a onClick={() => setEditing(nivel)}>{nivel.nivel}</a>,
           actions: <Flex justify="center" gap={5}>
@@ -90,8 +96,8 @@ export default function Niveis() {
           </Flex>
         }) )}
         colunas={[
-          { key: 'id', label: 'ID', width: 50 },
-          { key: 'nivel', label: 'Nível'},
+          { key: 'id', label: 'ID', width: 50, orderable: true },
+          { key: 'nivel', label: 'Nível', orderable: true },
           { key: 'actions', label: 'Ações', width: 100, align: 'center' },
         ]}
       />

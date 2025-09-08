@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Traits;
+namespace App\Http\Controllers\Traits;
 
-use App\Http\Requests\PaginationRequest;
+use App\Http\Requests\PaginationWithOrderRequest;
 use Illuminate\Database\Eloquent\Builder;
 
 trait Pagination
 {
-    public function paginate(Builder $query, PaginationRequest $req)
+    public function paginate(Builder $query, PaginationWithOrderRequest $req)
     {
-        $page = (int) $req->query('page', 1);
-        $limit = (int) $req->query('limit', 10);
+        $page = (int) $req->query('page', $req->paginationDefaults()['page']);
+        $limit = (int) $req->query('limit', $req->paginationDefaults()['limit']);
 
         $paginated = $query->paginate($limit, ['*'], 'page', $page);
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\Pagination;
 use App\Http\Requests\NivelIndexRequest;
 use App\Http\Requests\NivelStoreRequest;
 use App\Http\Requests\NivelUpdateRequest;
 use App\Models\Nivel;
-use App\Traits\Pagination;
 
 class NivelController extends Controller
 {
@@ -31,6 +31,8 @@ class NivelController extends Controller
         if ($nivel) {
             $query->where('nivel', 'like', '%'.$nivel.'%');
         }
+
+        $query->orderBy($req->query('order_by', 'id'), $req->query('order_direction', 'asc'));
 
         $niveis = $this->paginate($query, $req);
 

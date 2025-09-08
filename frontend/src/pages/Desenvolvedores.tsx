@@ -32,11 +32,17 @@ export default function Desenvolvedores() {
         [page, setPage] = useState(1),
         [search, setSearch] = useState(''),
         [editing, setEditing] = useState<DesenvolvedorType | undefined>(undefined),
-        [loading, setLoading] = useState(false)
+        [loading, setLoading] = useState(false),
+        [order, setOrder] = useState<{ by: string; direction: 'asc' | 'desc'}>({ by: '', direction: 'asc' })
 
   const Refresh = async() => {
     setLoading(true)
-    const response = await api.Index<DesenvolvedorType>('desenvolvedores', { page, nome: search })
+    const response = await api.Index<DesenvolvedorType>('desenvolvedores', {
+      page,
+      nome: search,
+      order_by: order.by,
+      order_direction: order.direction,
+    })
     setDesenvolvedores( response?.data )
     setMeta( response?.meta )
     setLoading(false)
@@ -67,7 +73,7 @@ export default function Desenvolvedores() {
     Refresh()
   }
 
-  useEffect(() => { Refresh() }, [page])
+  useEffect(() => { Refresh() }, [page, order])
 
   useEffect(() => { if( search === '' ) Refresh() }, [search])
 
@@ -84,7 +90,7 @@ export default function Desenvolvedores() {
     <SearchBar search={search} setSearch={setSearch} Refresh={Refresh} setPage={setPage} />
 
     <Loading isLoading={loading}>
-      <Table
+      <Table order={order} setOrder={setOrder}
         data={desenvolvedores?.map(desenvolvedor => ({...desenvolvedor,
           nome: <a onClick={() => setEditing(desenvolvedor)}>{desenvolvedor.nome}</a>,
           nivel: desenvolvedor.nivel?.nivel,
@@ -100,11 +106,11 @@ export default function Desenvolvedores() {
           </Flex>
         }) )}
         colunas={[
-          { key: 'id', label: 'ID', width: 50 },
-          { key: 'nome', label: 'Nome' },
-          { key: 'nivel', label: 'Nível' },
-          { key: 'sexo', label: 'Sexo', width: 80 },
-          { key: 'data_nascimento', label: 'Data de Nascimento', width: 150, align: 'center' },
+          { key: 'id', label: 'ID', width: 50, orderable: true },
+          { key: 'nome', label: 'Nome', orderable: true },
+          { key: 'nivel', label: 'Nível', orderable: true },
+          { key: 'sexo', label: 'Sexo', width: 80, orderable: true },
+          { key: 'data_nascimento', label: 'Data de Nascimento', width: 150, align: 'center', orderable: true },
           { key: 'hobby', label: 'Hobby' },
           { key: 'actions', label: 'Ações', width: 100, align: 'center' },
         ]}

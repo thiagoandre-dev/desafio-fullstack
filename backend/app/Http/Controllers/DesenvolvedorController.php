@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\Pagination;
 use App\Http\Requests\DesenvolvedorIndexRequest;
 use App\Http\Requests\DesenvolvedorStoreRequest;
 use App\Models\Desenvolvedor;
-use App\Traits\Pagination;
 
 class DesenvolvedorController extends Controller
 {
@@ -41,6 +41,19 @@ class DesenvolvedorController extends Controller
                 }
             }
         }
+
+        $orderBy = $req->query('order_by', 'id');
+        $orderDirection = $req->query('order_direction', 'asc');
+
+        $query->when($orderBy === 'nivel', function ($q) use ($orderDirection) {
+            $q->join('niveis', 'desenvolvedores.nivel_id', '=', 'niveis.id')
+              ->select('desenvolvedores.*')
+              ->orderBy('niveis.nivel', $orderDirection);
+        }, function ($q) use ($orderBy, $orderDirection) {
+            $q->orderBy($orderBy, $orderDirection);
+        });
+
+        $query->orderBy($orderBy, $req->query('order_direction', 'asc'));
 
         $desenvolvedores = $this->paginate($query, $req);
 

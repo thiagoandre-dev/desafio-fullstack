@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\RequestWithFailedValidation;
+use App\Http\Requests\Traits\WithFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DesenvolvedorStoreRequest extends FormRequest
 {
-    use RequestWithFailedValidation;
+    use WithFailedValidation;
 
     public function authorize(): bool
     {

@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\RequestWithFailedValidation;
+use App\Http\Requests\Traits\WithFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NivelUpdateRequest extends FormRequest
 {
-    use RequestWithFailedValidation;
+    use WithFailedValidation;
 
     public function authorize(): bool
     {
@@ -28,5 +28,12 @@ class NivelUpdateRequest extends FormRequest
             'nivel.string' => 'O campo nível deve ser uma string.',
             'nivel.max' => 'O campo nível não pode ter mais de 100 caracteres.',
         ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'nivel' => $this->input('nivel') ? trim($this->input('nivel')) : null,
+        ]);
     }
 }

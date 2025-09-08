@@ -1,13 +1,20 @@
-import { Table as MTable, ScrollArea } from '@mantine/core'
+import { Center, Flex, Table as MTable, ScrollArea, UnstyledButton } from '@mantine/core'
+import { IconChevronDown, IconChevronUp } from '@tabler/icons-react'
 
 export type ColunaType = {
   key: string
   label: string
   width?: string | number
   align?: 'left' | 'center' | 'right'
+  orderable?: boolean
 }
 
-export default function Table({ data, colunas }: { data: any[], colunas: ColunaType[] }) {
+export default function Table({ data, colunas, order, setOrder }: {
+  data: any[],
+  colunas: ColunaType[],
+  order?: { by: string, direction: 'asc' | 'desc' },
+  setOrder?: (order: { by: string, direction: 'asc' | 'desc' }) => void
+}) {
   return (
     <ScrollArea>
       <MTable highlightOnHover withColumnBorders className='my-table' >
@@ -18,8 +25,24 @@ export default function Table({ data, colunas }: { data: any[], colunas: ColunaT
                 key={coluna.key}
                 style={{width: coluna.width || 'auto', textAlign: coluna.align || 'left'}}
                 align={coluna.align || 'left'}
+                onClick={() => coluna.orderable && setOrder?.({
+                  by: coluna.key,
+                  direction: order?.by === coluna.key && order.direction === 'asc' ? 'desc' : 'asc'
+                }) }
+                className={coluna.orderable ? 'orderable' : '' }
               >
-                {coluna.label}
+                {coluna.orderable ? (
+                  <UnstyledButton style={{width: '100%', textAlign: coluna.align || 'left', fontSize: 'inherit'}}>
+                    <Flex gap={5}>
+                      {coluna.label}
+                      <Center>
+                        {order?.by === coluna.key ? (
+                          order.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                        ) : null}
+                      </Center>
+                    </Flex>
+                  </UnstyledButton>
+                ) : coluna.label}
               </MTable.Th>
             )}
           </MTable.Tr>
