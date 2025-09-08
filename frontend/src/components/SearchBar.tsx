@@ -2,7 +2,7 @@ import { ActionIcon, CloseButton, Flex, Input, Tooltip } from "@mantine/core"
 import { IconSearch } from "@tabler/icons-react"
 
 export default function SearchBar({ search, setSearch, setPage, Refresh }: { 
-  search: string, 
+  search: string | null,
   setSearch: (s: string) => void,
   setPage: (p: number) => void,
   Refresh: () => void
@@ -14,7 +14,7 @@ export default function SearchBar({ search, setSearch, setPage, Refresh }: {
 
   return (
     <Flex my={20} gap={10} justify="space-between" align="center">
-      <Input placeholder="Pesquisar..." value={search} onChange={e => setSearch(e.currentTarget.value)}
+      <Input placeholder="Pesquisar..." value={search ?? ''} onChange={e => setSearch(e.currentTarget.value)}
         onKeyDown={(e) => { if (e.key === 'Enter') { buscar() } }}
         style={{ flexGrow: 1 }}
         rightSectionPointerEvents="all"

@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import api, { type PaginationMeta } from "../api"
 import Table from "../components/Table"
-import { ActionIcon, Button, Flex, Group, TextInput, Tooltip, Typography } from "@mantine/core"
+import { ActionIcon, Button, Flex, Group, Image, TextInput, Tooltip, Typography } from "@mantine/core"
 import Modal from "../components/Modal"
 import { notifications } from "@mantine/notifications"
 import Loading from "../components/Loading"
 import SearchBar from "../components/SearchBar"
 import { Pagination } from "../components/Pagination"
+import nivelImage from '/award.png'
+import { IconAward } from "@tabler/icons-react"
 
 export type NivelType = {
   id: number
@@ -25,7 +27,7 @@ export default function Niveis() {
         }),
         [page, setPage] = useState(1),
         [limit, setLimit] = useState(10),
-        [search, setSearch] = useState(''),
+        [search, setSearch] = useState<string|null>(null),
         [editing, setEditing] = useState<NivelType | undefined>(undefined),
         [loading, setLoading] = useState(false),
         [order, setOrder] = useState<{ by: string; direction: 'asc' | 'desc'}>({ by: 'id', direction: 'asc' })
@@ -35,7 +37,7 @@ export default function Niveis() {
     const response = await api.Index<NivelType>('niveis', {
       page,
       limit,
-      nivel: search,
+      nivel: search ?? '',
       order_by: order.by,
       order_direction: order.direction,
     })
@@ -50,17 +52,20 @@ export default function Niveis() {
     const response = editing?.id
           ? await api.Update<NivelType>('niveis', editing.id, editing)
           : await api.Store<NivelType>('niveis', editing)
-    if( response ) notifications.show({
-      title: editing?.id ? 'Nível atualizado' : 'Nível criado',
-      message: editing?.id
-                ? `O nível "${editing.nivel}" foi atualizado com sucesso.`
-                : `O nível "${editing.nivel}" foi criado com sucesso.`,
-      color: 'green',
-      autoClose: 3000,
-    })
 
-    setEditing(undefined)
-    Refresh()
+    if( response ) {
+      notifications.show({
+        title: editing?.id ? 'Nível atualizado' : 'Nível criado',
+        message: editing?.id
+                  ? `O nível "${editing.nivel}" foi atualizado com sucesso.`
+                  : `O nível "${editing.nivel}" foi criado com sucesso.`,
+        color: 'green',
+        autoClose: 3000,
+      })
+
+      setEditing(undefined)
+      Refresh()
+    }
   }
 
   const Delete = async(nivel: NivelType) => {
@@ -115,22 +120,45 @@ export default function Niveis() {
 function NivelModal({ editing, setEditing, onSave }: {
   editing?: Partial<NivelType>, 
   setEditing?: (nivel?: NivelType) => void,
-  onSave?: () => void
+  onSave?: () => Promise<void>
 }) {
+  const [loading, setLoading] = useState(false)
+
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if( !!editing ) setTimeout(() => inputRef.current?.focus(), 100)
+  }, [editing])
+
   return (
-    <Modal title={editing?.id ? `Editando nível: ${editing.nivel}` : 'Novo nível'}
+    <Modal size="xl"
+      title={<Flex gap={5} align="center"><IconAward />{editing?.id ? `Editando nível: ${editing.nivel}` : 'Novo nível'}</Flex>}
       opened={!!editing} onClose={() => setEditing?.(undefined)}
     >
-      <TextInput placeholder="Nível" label="Nível" defaultValue={editing?.nivel} required 
-        onChange={e => setEditing?.({...editing, nivel: e.currentTarget.value} as NivelType)}
-        error={!editing?.nivel && 'Nome do nível é obrigatório'}
-      />
+      <Flex gap={10} mb={10} direction="row">
+        <Image src={nivelImage} alt="Desenvolvedor" maw={300} fit="contain" />
+
+        <Flex gap={10} direction="column" flex={3}>
+          <TextInput ref={inputRef} required
+            placeholder="Nível" label="Nível" defaultValue={editing?.nivel}
+            onChange={e => setEditing?.({...editing, nivel: e.currentTarget.value} as NivelType)}
+            error={!editing?.nivel && 'Nome do nível é obrigatório'}
+          />
+        </Flex>
+      </Flex>
 
       <Flex justify="space-between" mt={20} gap={10}>
         <Button color="red" variant="filled" onClick={() => setEditing?.(undefined)}>
           &times; Cancelar
         </Button>
-        <Button color="blue" variant="filled" onClick={onSave} disabled={!editing?.nivel?.trim()}>
+        <Button color="blue" variant="filled" disabled={!editing?.nivel?.trim()}
+          loading={loading}
+          onClick={async() => {
+            setLoading(true)
+            await onSave?.()
+            setLoading(false)
+          }}
+        >
           &#10003; Salvar
         </Button>
       </Flex>      

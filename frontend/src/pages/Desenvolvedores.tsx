@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { PaginationMeta } from "../api"
 import api from "../api"
 import { notifications } from "@mantine/notifications"
-import { ActionIcon, Button, Flex, Group, Select, Textarea, TextInput, Tooltip, Typography } from "@mantine/core"
+import { ActionIcon, Button, Flex, Group, Image, Select, Textarea, TextInput, Tooltip, Typography } from "@mantine/core"
 import Table from "../components/Table"
 import Modal from "../components/Modal"
 import type { NivelType } from "./Niveis"
 import Loading from "../components/Loading"
 import SearchBar from "../components/SearchBar"
 import { Pagination } from "../components/Pagination"
+import { IconUser } from "@tabler/icons-react"
+import devImage from '/icon.png'
 
 export type DesenvolvedorType = {
   id: number
@@ -32,7 +34,7 @@ export default function Desenvolvedores() {
         }),
         [page, setPage] = useState(1),
         [limit, setLimit] = useState(10),
-        [search, setSearch] = useState(''),
+        [search, setSearch] = useState<string|null>(null),
         [editing, setEditing] = useState<DesenvolvedorType | undefined>(undefined),
         [loading, setLoading] = useState(false),
         [order, setOrder] = useState<{ by: string; direction: 'asc' | 'desc'}>({ by: 'id', direction: 'asc' })
@@ -42,7 +44,7 @@ export default function Desenvolvedores() {
     const response = await api.Index<DesenvolvedorType>('desenvolvedores', {
       page,
       limit,
-      nome: search,
+      nome: search ?? '',
       order_by: order.by,
       order_direction: order.direction,
     })
@@ -54,20 +56,25 @@ export default function Desenvolvedores() {
   const Save = async() => {
     if( !editing ) return
 
+    if( !editing.hobby ) editing.hobby = ''
+
     const response = editing?.id
           ? await api.Update<DesenvolvedorType>('desenvolvedores', editing.id, editing)
           : await api.Store<DesenvolvedorType>('desenvolvedores', editing)
-    if( response ) notifications.show({
-      title: editing?.id ? 'Desenvolvedor atualizado' : 'Desenvolvedor criado',
-      message: editing?.id
-                ? `O desenvolvedor "${editing.nome}" foi atualizado com sucesso.`
-                : `O desenvolvedor "${editing.nome}" foi criado com sucesso.`,
-      color: 'green',
-      autoClose: 3000,
-    })
 
-    setEditing(undefined)
-    Refresh()
+    if( response ) {
+      notifications.show({
+        title: editing?.id ? 'Desenvolvedor atualizado' : 'Desenvolvedor criado',
+        message: editing?.id
+                  ? `O desenvolvedor "${editing.nome}" foi atualizado com sucesso.`
+                  : `O desenvolvedor "${editing.nome}" foi criado com sucesso.`,
+        color: 'green',
+        autoClose: 3000,
+      })
+
+      setEditing(undefined)
+      Refresh()
+    }
   }
 
   const Delete = async(desenvolvedor: DesenvolvedorType) => {
@@ -129,70 +136,84 @@ export default function Desenvolvedores() {
 function DesenvolvedorModal({ editing, setEditing, onSave }: {
   editing?: Partial<DesenvolvedorType>, 
   setEditing?: (desenvolvedor?: DesenvolvedorType) => void,
-  onSave?: () => void
+  onSave?: () => Promise<void>
 }) {
   const [niveis, setNiveis] = useState<NivelType[]>([]),
-        [opened, setOpened] = useState(!!editing)
+        [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    if( opened !== !!editing ) setOpened(!!editing)
-  }, [editing])
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const validation =  editing?.nome?.trim() && 
+                      editing?.nivel_id && 
+                      editing?.sexo && 
+                      editing?.data_nascimento && 
+                      new Date(editing.data_nascimento) <= new Date()
 
   useEffect(() => {
     const fetchNiveis = async() => {
       const response = await api.Index<NivelType>('niveis', { per_page: 100 })
       setNiveis( response.data )
+
+      setTimeout(() => inputRef.current?.focus(), 100)
     }
-    if( opened ) fetchNiveis()
-  }, [opened])
+
+    if( !!editing ) fetchNiveis()
+  }, [editing])
 
   return (
-    <Modal title={editing?.id ? `Editando desenvolvedor: ${editing.nome}` : 'Novo desenvolvedor'}
+    <Modal size="xl"
+      title={<Flex gap={5} align="center"><IconUser />{editing?.id ? `Editando desenvolvedor: ${editing.nome}` : 'Novo desenvolvedor'}</Flex>}
       opened={!!editing} onClose={() => setEditing?.(undefined)}
     >
-      <Flex gap={10} mb={10} direction="column">
-      <TextInput placeholder="Nome" label="Nome" defaultValue={editing?.nome} required 
-        onChange={e => setEditing?.({...editing, nome: e.currentTarget.value} as DesenvolvedorType)}
-        error={!editing?.nome && 'Nome do desenvolvedor é obrigatório'}
-      />
-        <Select
-          label="Nível"
-          placeholder="Selecione o nível"
-          data={niveis.map(nivel => ({ value: String(nivel.id), label: nivel.nivel }))}
-          value={editing?.nivel_id ? String(editing.nivel_id) : undefined}
-          onChange={value => setEditing?.({...editing, nivel_id: value ? Number(value) : undefined} as DesenvolvedorType)}
-          required
-          error={!editing?.nivel_id && 'Nível é obrigatório'}
-        />
-        <Select
-          label="Sexo"
-          placeholder="Selecione o sexo"
-          data={[
-            { value: 'M', label: 'Masculino' },
-            { value: 'F', label: 'Feminino' },
-          ]}
-          value={editing?.sexo}
-          onChange={value => setEditing?.({...editing, sexo: value as 'M' | 'F'} as DesenvolvedorType)}
-          required
-          error={!editing?.sexo && 'Sexo é obrigatório'}
-        />
-        <TextInput
-          label="Data de Nascimento"
-          type="date"
-          value={editing?.data_nascimento ? new Date(editing.data_nascimento).toISOString().substring(0, 10) : ''}
-          onChange={e => setEditing?.({...editing, data_nascimento: e.currentTarget.value ? new Date(e.currentTarget.value).toISOString().split('T')[0] : undefined} as DesenvolvedorType)}
-          required
-          max={new Date().toISOString().split("T")[0]}
-          error={
-            !editing?.data_nascimento ? 'Data de nascimento é obrigatória'
-            : new Date(editing.data_nascimento) > new Date() ? 'Data de nascimento não pode ser no futuro'
-            : undefined
-          }
-        />
-        <Textarea placeholder="Hobby" label="Hobby" defaultValue={editing?.hobby} 
-          onChange={e => setEditing?.({...editing, hobby: e.currentTarget.value} as DesenvolvedorType)}
-          maxLength={255}
-        />
+      <Flex gap={10} mb={10} direction="row">
+        <Image src={devImage} alt="Desenvolvedor" maw={300} fit="contain" />
+
+        <Flex gap={10} direction="column" flex={3}>
+          <TextInput ref={inputRef} required
+            placeholder="Nome" label="Nome" defaultValue={editing?.nome}
+            onChange={e => setEditing?.({...editing, nome: e.currentTarget.value} as DesenvolvedorType)}
+            error={!editing?.nome && 'Nome do desenvolvedor é obrigatório'}
+          />
+          <Select
+            label="Nível"
+            placeholder="Selecione o nível"
+            data={niveis.map(nivel => ({ value: String(nivel.id), label: nivel.nivel }))}
+            value={editing?.nivel_id ? String(editing.nivel_id) : undefined}
+            onChange={value => setEditing?.({...editing, nivel_id: value ? Number(value) : undefined} as DesenvolvedorType)}
+            required
+            error={!editing?.nivel_id && 'Nível é obrigatório'}
+          />
+          <Select
+            label="Sexo"
+            placeholder="Selecione o sexo"
+            data={[
+              { value: 'M', label: 'Masculino' },
+              { value: 'F', label: 'Feminino' },
+            ]}
+            value={editing?.sexo}
+            onChange={value => setEditing?.({...editing, sexo: value as 'M' | 'F'} as DesenvolvedorType)}
+            required
+            error={!editing?.sexo && 'Sexo é obrigatório'}
+          />
+          <TextInput
+            label="Data de Nascimento"
+            type="date"
+            value={editing?.data_nascimento ? new Date(editing.data_nascimento).toISOString().substring(0, 10) : ''}
+            onChange={e => setEditing?.({...editing, data_nascimento: e.currentTarget.value ? new Date(e.currentTarget.value).toISOString().split('T')[0] : undefined} as DesenvolvedorType)}
+            required
+            max={new Date().toISOString().split("T")[0]}
+            error={
+              !editing?.data_nascimento ? 'Data de nascimento é obrigatória'
+              : new Date(editing.data_nascimento) > new Date() ? 'Data de nascimento não pode ser no futuro'
+              : undefined
+            }
+          />
+          <Textarea placeholder="Hobby" label="Hobby" 
+            value={editing?.hobby ?? ''}
+            onChange={e => setEditing?.({...editing, hobby: e.currentTarget.value ?? ''} as DesenvolvedorType)}
+            maxLength={255}
+          />
+        </Flex>
       </Flex>
 
 
@@ -200,7 +221,14 @@ function DesenvolvedorModal({ editing, setEditing, onSave }: {
         <Button color="red" variant="filled" onClick={() => setEditing?.(undefined)}>
           &times; Cancelar
         </Button>
-        <Button color="blue" variant="filled" onClick={onSave} disabled={!editing?.nome?.trim()}>
+        <Button color="blue" variant="filled" disabled={!validation}
+          loading={loading}
+          onClick={async() => {
+            setLoading(true)
+            await onSave?.()
+            setLoading(false)
+          }}
+        >
           &#10003; Salvar
         </Button>
       </Flex>      
