@@ -1,15 +1,17 @@
 import { Flex, Pagination as MPagination, Select, Text } from "@mantine/core";
 import type { PaginationMeta } from "../api";
+import { useMediaQuery } from "@mantine/hooks";
 
 export function Pagination({ meta, setPage, limit, setLimit }: {
   meta: PaginationMeta,
   setPage: (page: number) => void,
   limit: number,
   setLimit: (limit: number) => void,
-}
-){
+}){
+  const isMobile = useMediaQuery('(max-width: 768px)')
+
   return ( meta &&
-    <Flex justify="space-between" mt={20} align="center">
+    <Flex justify={isMobile ? "center" : "space-between"} mt={20} align="center" gap={10} wrap="wrap" direction={isMobile ? "column-reverse" : "row"}>
       <Select data={[
           { value: '5', label: '5 por página' },
           { value: '10', label: '10 por página' },
