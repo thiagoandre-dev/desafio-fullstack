@@ -135,10 +135,10 @@ function NivelModal({ editing, setEditing, onSave }: {
       title={<Flex gap={5} align="center"><IconAward />{editing?.id ? `Editando nível: ${editing.nivel}` : 'Novo nível'}</Flex>}
       opened={!!editing} onClose={() => setEditing?.(undefined)}
     >
-      <Flex gap={10} mb={10} direction="row">
+      <Flex gap={10} mb={10} direction="row" wrap="wrap" justify="center">
         <Image src={nivelImage} alt="Desenvolvedor" maw={300} fit="contain" />
 
-        <Flex gap={10} direction="column" flex={3}>
+        <Flex gap={10} direction="column" miw={300} flex={1}>
           <TextInput ref={inputRef} required
             placeholder="Nível" label="Nível" defaultValue={editing?.nivel}
             onChange={e => setEditing?.({...editing, nivel: e.currentTarget.value} as NivelType)}

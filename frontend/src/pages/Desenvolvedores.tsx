@@ -165,10 +165,10 @@ function DesenvolvedorModal({ editing, setEditing, onSave }: {
       title={<Flex gap={5} align="center"><IconUser />{editing?.id ? `Editando desenvolvedor: ${editing.nome}` : 'Novo desenvolvedor'}</Flex>}
       opened={!!editing} onClose={() => setEditing?.(undefined)}
     >
-      <Flex gap={10} mb={10} direction="row">
+      <Flex gap={10} mb={10} direction="row" wrap="wrap" justify="center">
         <Image src={devImage} alt="Desenvolvedor" maw={300} fit="contain" />
 
-        <Flex gap={10} direction="column" flex={3}>
+        <Flex gap={10} direction="column" miw={300} flex={1}>
           <TextInput ref={inputRef} required
             placeholder="Nome" label="Nome" defaultValue={editing?.nome}
             onChange={e => setEditing?.({...editing, nome: e.currentTarget.value} as DesenvolvedorType)}
