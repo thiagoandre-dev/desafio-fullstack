@@ -1,5 +1,5 @@
-import { Center, Flex, Table as MTable, ScrollArea, UnstyledButton } from '@mantine/core'
-import { IconChevronDown, IconChevronUp } from '@tabler/icons-react'
+import { Center, Flex, Table as MTable, ScrollArea, Text, UnstyledButton } from '@mantine/core'
+import { IconCaretDownFilled, IconCaretUpDownFilled, IconCaretUpFilled } from '@tabler/icons-react'
 
 export type ColunaType = {
   key: string
@@ -37,8 +37,10 @@ export default function Table({ data, colunas, order, setOrder }: {
                       {coluna.label}
                       <Center>
                         {order?.by === coluna.key ? (
-                          order.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
-                        ) : null}
+                          order.direction === 'asc' ? <IconCaretUpFilled size={14} /> : <IconCaretDownFilled size={14} />
+                        ) : 
+                          <Text c="dimmed"><IconCaretUpDownFilled size={14} /></Text>
+                        }
                       </Center>
                     </Flex>
                   </UnstyledButton>
