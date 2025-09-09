@@ -33,7 +33,7 @@ export default function Table({ data, colunas, order, setOrder }: {
               >
                 {coluna.orderable ? (
                   <UnstyledButton style={{width: '100%', textAlign: coluna.align || 'left', fontSize: 'inherit'}}>
-                    <Flex gap={5}>
+                    <Flex gap={5} justify={coluna.align === 'center' ? 'center' : coluna.align === 'right' ? 'flex-end' : 'flex-start'} align="center">
                       {coluna.label}
                       <Center>
                         {order?.by === coluna.key ? (
