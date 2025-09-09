@@ -347,11 +347,16 @@
                     {
                         "name": "order_by",
                         "in": "query",
-                        "description": "Campo para ordenar os resultados (id, nivel)",
+                        "description": "Campo para ordenação (id, nivel, desenvolvedores_count)",
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "default": "id"
+                            "default": "id",
+                            "enum": [
+                                "id",
+                                "nivel",
+                                "desenvolvedores_count"
+                            ]
                         }
                     },
                     {
