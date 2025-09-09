@@ -13,7 +13,7 @@ class NivelIndexRequest extends PaginationWithOrderRequest
     {
         return array_merge(parent::rules(), [
             'nivel' => ['nullable', 'string', 'max:255'],
-            'order_by' => [...parent::rules()['order_by'], 'in:id,nivel'],
+            'order_by' => [...parent::rules()['order_by'], 'in:id,nivel,desenvolvedores_count'],
         ]);
     }
 
@@ -22,7 +22,7 @@ class NivelIndexRequest extends PaginationWithOrderRequest
         return array_merge(parent::messages(), [
             'nivel.string' => 'O campo nível deve ser uma string.',
             'nivel.max' => 'O campo nível não pode ter mais de 255 caracteres.',
-            'order_by.in' => 'O campo order_by deve ser "nivel" ou "id".',
+            'order_by.in' => 'O campo order_by deve ser um dos seguintes valores: id, nivel, desenvolvedores_count.',
         ]);
     }
 }

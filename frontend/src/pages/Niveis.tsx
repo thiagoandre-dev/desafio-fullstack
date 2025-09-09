@@ -13,6 +13,7 @@ import { IconAward } from "@tabler/icons-react"
 export type NivelType = {
   id: number
   nivel: string
+  desenvolvedores_count?: number
   created_at: Date
   updated_at: Date
 }
@@ -106,6 +107,7 @@ export default function Niveis() {
         colunas={[
           { key: 'id', label: '#', width: 50, orderable: true },
           { key: 'nivel', label: 'Nível', orderable: true },
+          { key: 'desenvolvedores_count', label: 'Desenvolvedores', width: 170, align: 'center', orderable: true },
           { key: 'actions', label: 'Ações', width: 100, align: 'center' },
         ]}
       />

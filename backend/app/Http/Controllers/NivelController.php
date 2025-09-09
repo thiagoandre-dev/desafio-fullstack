@@ -34,7 +34,9 @@ class NivelController extends Controller
             $query->where('nivel', 'like', '%'.$nivel.'%');
         }
 
-        $query->orderBy($req->query('order_by', 'id'), $req->query('order_direction', 'asc'));
+        $query
+            ->withCount('desenvolvedores')
+            ->orderBy($req->query('order_by', 'id'), $req->query('order_direction', 'asc'));
 
         $niveis = $this->paginate($query, $req);
 
@@ -55,7 +57,7 @@ class NivelController extends Controller
      */
     public function show(int $id)
     {
-        $nivel = Nivel::find($id);
+        $nivel = Nivel::withCount('desenvolvedores')->find($id);
 
         if (! $nivel) {
             return response()->json(['message' => 'Nível não encontrado'], 404);
